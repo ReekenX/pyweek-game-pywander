@@ -4,7 +4,7 @@ from pygame.locals import K_DOWN, K_UP, K_SPACE
 from pywander.boards.base import BoardBase
 from pywander.sprites.ship import ShipSprite
 from pywander.sprites.enemy import EnemySprite
-from pywander.sprites.boss import EnemySprite
+from pywander.sprites.boss import BossSprite
 from pywander.sprites.asteroid import AsteroidSprite
 from pywander.sprites.bullet import BulletSprite
 
