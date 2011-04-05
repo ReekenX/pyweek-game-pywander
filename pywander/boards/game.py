@@ -2,10 +2,9 @@ import os
 import pygame
 from pygame.locals import K_DOWN, K_UP, K_SPACE
 from pywander.boards.base import BoardBase
-from pywander.boards.won import WonBoard
-from pywander.boards.lose import LoseBoard
 from pywander.sprites.ship import ShipSprite
 from pywander.sprites.enemy import EnemySprite
+from pywander.sprites.boss import EnemySprite
 from pywander.sprites.asteroid import AsteroidSprite
 from pywander.sprites.bullet import BulletSprite
 
@@ -25,11 +24,14 @@ class GameBoard(BoardBase):
     bullets_group = None
     enemy_group = None
     
+    level = 1
     level_file = None
     last_file_read = 0
     level_speed = 1000
 
-    def __init__(self):
+    def __init__(self, level=1):
+        self.level = level
+
         self.ship = ShipSprite()
         self.bullets_group = pygame.sprite.Group()
         self.enemy_group = pygame.sprite.Group()
@@ -72,8 +74,11 @@ class GameBoard(BoardBase):
         return self.status is not None
 
     def get_next_board(self):
+        from pywander.boards.won import WonBoard
+        from pywander.boards.lose import LoseBoard
+
         if self.status == PLAYER_WON:
-            return WonBoard()
+            return WonBoard(self.level + 1)
         else:
             return LoseBoard()
 
