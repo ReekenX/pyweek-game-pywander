@@ -1,10 +1,10 @@
-Your Game Title
-===============
+Pywander - finish level 9 times
+===============================
 
 Entry in PyWeek #12  <http://www.pyweek.org/12/>
 URL: http://www.jarmalavicius.lt
-Team: YOUR TEAM NAME (leave the "Team: bit")
-Members: YOUR TEAM MEMBERS (leave the "Members: bit")
+Team: ReekenX
+Members: Remigijus Jarmalavičius
 License: see LICENSE.txt
 
 

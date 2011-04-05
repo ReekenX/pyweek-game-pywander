@@ -1,1 +1,6 @@
+Bugs
+====
 
+Feel free to write bugs at Github:
+
+    https://github.com/ReekenX/pywander/issues
