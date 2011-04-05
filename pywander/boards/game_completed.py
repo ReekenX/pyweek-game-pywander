@@ -1,16 +1,13 @@
 from pygame.locals import KEYDOWN
 from pywander.boards.base import BoardBase
-from pywander.boards.game import GameBoard
-from pywander.boards.game_completed import GameCompletedBoard
 from pywander.objects.label import LabelObject
 
 
-class WonBoard(BoardBase):
+class LoseBoard(BoardBase):
     switch_board = False
 
-    def __init__(self, level):
-        self.label = LabelObject('You won! Going to level %d.' % level)
-        self.level = level
+    def __init__(self):
+        self.label = LabelObject('Game completed, congrats!')
 
     def process_draw_on_surface(self, surface):
         self.label.draw_on_surface(surface)
@@ -24,7 +21,4 @@ class WonBoard(BoardBase):
         return self.switch_board
 
     def get_next_board(self):
-        if self.level < 10:
-            return GameBoard(self.level)
-        else:
-            return GameCompletedBoard()
+        return None
