@@ -114,14 +114,17 @@ class ObjectBase(object):
         self.recount_movement_coords()
         surface.blit(self.surface_to_draw, self.get_rect())
 
-        transparency_color = surface.get_at((self.rect.left, self.rect.top))
-        transparency_rgb_with_alpha = (transparency_color.r,
-                                       transparency_color.g,
-                                       transparency_color.b,
-                                       self.get_transparency_value())
-        transparency = pygame.surface.Surface((self.rect.width, self.rect.height)).convert_alpha()
-        transparency.fill(transparency_rgb_with_alpha)
-        surface.blit(transparency, self.rect)
+        try:
+            transparency_color = surface.get_at((self.rect.left, self.rect.top))
+            transparency_rgb_with_alpha = (transparency_color.r,
+                                           transparency_color.g,
+                                           transparency_color.b,
+                                           self.get_transparency_value())
+            transparency = pygame.surface.Surface((self.rect.width, self.rect.height)).convert_alpha()
+            transparency.fill(transparency_rgb_with_alpha)
+            surface.blit(transparency, self.rect)
+        except:
+            pass
 
     def is_realign_changed(self):
         return self.realign != self.last_realign
