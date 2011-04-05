@@ -2,6 +2,7 @@ import os
 import pygame
 from pygame.locals import K_DOWN, K_UP, K_SPACE
 from pywander.boards.base import BoardBase
+from pywander.objects.image import ImageObject
 from pywander.sprites.ship import ShipSprite
 from pywander.sprites.enemy import EnemySprite
 from pywander.sprites.boss import BossSprite
@@ -20,6 +21,7 @@ class GameBoard(BoardBase):
     last_fire_time = 0
     fire_delay = 500
 
+    background = None
     ship = None
     bullets_group = None
     enemy_group = None
@@ -33,6 +35,8 @@ class GameBoard(BoardBase):
     def __init__(self, level=1):
         self.level = level
 
+        self.background = ImageObject('background.png')
+
         self.ship = ShipSprite()
         self.bullets_group = pygame.sprite.Group()
         self.enemy_group = pygame.sprite.Group()
@@ -42,6 +46,9 @@ class GameBoard(BoardBase):
         self.level_file.readline()  # First line indicates just limit of file width
 
     def process_draw_on_surface(self, surface):
+        # TODO: Performance issues here...
+        # self.background.draw_on_surface(surface)
+
         for bullet in self.bullets_group.sprites():
             bullet.image.rect.left += 1
             if bullet.image.rect.left >= 640:

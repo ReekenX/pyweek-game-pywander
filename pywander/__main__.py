@@ -19,7 +19,7 @@ def main():
     board = StartupBoard()
 
     while board is not None:
-        clock.tick(1000)
+        clock.tick(5000)
         surface.fill(SCREEN_BACKGROUND)
 
         events = pygame.event.get()
