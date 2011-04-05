@@ -107,7 +107,7 @@ class ObjectBase(object):
         self.rect.left += x_elapsed
         self.rect.top += y_elapsed
 
-    def draw_on_surface(self, surface):
+    def draw_on_surface(self, surface, rect=None):
         if self.is_realign_changed():
             self.realign_on_surface(surface)
 
