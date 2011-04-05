@@ -1,14 +1,12 @@
 TODO
 ====
 
-Startup window.
+Ship movements to left and right.
 
-Space character and his movements.
+Moving background.
 
-Moving space background.
+Enemies should have ability to fire.
 
-Moving rocks.
+THE BOSS should have ability to fire.
 
-Level file.
-
-The boss which should be killed 9 times to win this game.
+Testing/Planning idea.
