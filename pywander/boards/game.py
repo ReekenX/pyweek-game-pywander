@@ -2,7 +2,6 @@ import pygame
 from pygame.locals import KEYDOWN, K_RETURN, K_DOWN, K_UP, K_SPACE
 from pywander.boards.base import BoardBase
 from pywander.boards.won import WonBoard
-from pywander.objects.label import LabelObject
 from pywander.sprites.ship import ShipSprite
 from pywander.sprites.bullet import BulletSprite
 
@@ -16,32 +15,27 @@ class GameBoard(BoardBase):
     fire_delay = 500
 
     ship = None
-    label = None
-    bullet = None
+    bullets_group = None
+    enemy_group = None
 
     def __init__(self):
-        self.label = LabelObject('Board of game...')
         self.ship = ShipSprite()
-        self.bullet = BulletSprite()
+        self.bullets_group = pygame.sprite.Group()
+        self.enemy_group = pygame.sprite.Group()
 
     def process_draw_on_surface(self, surface):
-        self.label.draw_on_surface(surface)
-
-        for bullet in self.bullets:
-            bullet[0] += 1
-            self.bullet.image.rect.left = bullet[0]
-            self.bullet.image.rect.top = bullet[1]
-            if self.bullet.image.rect.left >= 640:
-                self.bullets.remove(bullet)
+        for bullet in self.bullets_group.sprites():
+            bullet.image.rect.left += 1
+            if bullet.image.rect.left >= 640:
+                self.bullets_group.remove(bullet)
             else:
-                self.bullet.image.draw_on_surface(surface)
+                bullet.draw_on_surface(surface)
 
         self.ship.image.rect.top = int(self.ship_top)
-        self.ship.image.draw_on_surface(surface)
+        self.ship.draw_on_surface(surface)
 
-        #tmp = LabelObject('Speed: ' + str(self.ship_speed))
-        #tmp.rect.left = 580
-        #tmp.draw_on_surface(surface)
+        if pygame.sprite.groupcollide(self.bullets_group, self.enemy_group, 0, 0):
+            print 'Enemy down...'
 
     def process_inputs(self, events):
         for event in events:
@@ -74,5 +68,8 @@ class GameBoard(BoardBase):
     def fire_bullet(self):
         time_now = pygame.time.get_ticks()
         if self.last_fire_time + self.fire_delay < time_now:
-            self.bullets.append([50, self.ship.image.rect.top + 45])
+            bullet = BulletSprite()
+            bullet.image.rect.left = 50
+            bullet.image.rect.top = self.ship.image.rect.top + 45
+            self.bullets_group.add(bullet)
             self.last_fire_time = time_now
