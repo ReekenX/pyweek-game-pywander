@@ -1,17 +1,22 @@
 import os
 import pygame
-from pygame.locals import KEYDOWN, K_RETURN, K_DOWN, K_UP, K_SPACE
+from pygame.locals import K_DOWN, K_UP, K_SPACE
 from pywander.boards.base import BoardBase
 from pywander.boards.won import WonBoard
+from pywander.boards.lose import LoseBoard
 from pywander.sprites.ship import ShipSprite
 from pywander.sprites.enemy import EnemySprite
+from pywander.sprites.asteroid import AsteroidSprite
 from pywander.sprites.bullet import BulletSprite
 
 
+PLAYER_WON = 1
+PLAYER_LOSE = 2
+
 class GameBoard(BoardBase):
+    status = None
     ship_speed = 0.39
     ship_top = 0.00
-    switch_board = False
     bullets = []
     last_fire_time = 0
     fire_delay = 500
@@ -49,14 +54,12 @@ class GameBoard(BoardBase):
         for hit in pygame.sprite.groupcollide(self.bullets_group, self.enemy_group, 1, 1):
             pass
 
-        self.read_level_info()
+        if pygame.sprite.spritecollideany(self.ship, self.enemy_group):
+            self.status = PLAYER_LOSE
+        else:
+            self.read_level_info()
 
     def process_inputs(self, events):
-        for event in events:
-            if event.type == KEYDOWN:
-                if event.key == K_RETURN:
-                    self.switch_board = True
-
         key = pygame.key.get_pressed()
         if key[K_DOWN]:
             self.move_ship_down()
@@ -66,10 +69,13 @@ class GameBoard(BoardBase):
             self.fire_bullet()
 
     def is_time_to_switch_board(self):
-        return self.switch_board
+        return self.status is not None
 
     def get_next_board(self):
-        return WonBoard()
+        if self.status == PLAYER_WON:
+            return WonBoard()
+        else:
+            return LoseBoard()
 
     def move_ship_down(self):
         if self.ship.image.rect.top + self.ship_speed < 380:
@@ -94,13 +100,21 @@ class GameBoard(BoardBase):
         enemy.image.rect.top = key * 30
         self.enemy_group.add(enemy)
 
+    def add_asteroid(self, key):
+        enemy = AsteroidSprite()
+        enemy.image.rect.left = 680
+        enemy.image.rect.top = key * 30
+        self.enemy_group.add(enemy)
+
     def read_level_info(self):
         time_now = pygame.time.get_ticks()
         if self.last_file_read + self.level_speed < time_now:
             line = self.level_file.readline()
             key = 0
             for obj in line:
-                if obj == 'X':
+                if obj == '^':
                     self.add_enemy(key)
+                if obj == 'O':
+                    self.add_asteroid(key)
                 key += 1
             self.last_file_read = time_now
