@@ -23,6 +23,7 @@ class GameBoard(BoardBase):
     ship = None
     bullets_group = None
     enemy_group = None
+    inactive_group = None
     
     level = 1
     level_file = None
@@ -35,6 +36,7 @@ class GameBoard(BoardBase):
         self.ship = ShipSprite()
         self.bullets_group = pygame.sprite.Group()
         self.enemy_group = pygame.sprite.Group()
+        self.inactive_group = pygame.sprite.Group()
 
         self.level_file = open(os.path.join('data', 'level.txt'))
         self.level_file.readline()  # First line indicates just limit of file width
@@ -52,12 +54,21 @@ class GameBoard(BoardBase):
 
         for enemy in self.enemy_group.sprites():
             enemy.draw_on_surface(surface)
+        
+        for inactive in self.inactive_group.sprites():
+            inactive.draw_on_surface(surface)
+            if inactive.is_completed():
+                self.inactive_group.remove(inactive)
 
         for hit in pygame.sprite.groupcollide(self.enemy_group, self.bullets_group, 1, 1):
             if isinstance(hit, BossSprite):
                 self.status = PLAYER_WON
                 return False
-        
+            
+            if isinstance(hit, EnemySprite):
+                hit.show_explosion()
+                self.inactive_group.add(hit)
+
         if pygame.sprite.spritecollideany(self.ship, self.enemy_group):
             self.status = PLAYER_LOSE
         else:
