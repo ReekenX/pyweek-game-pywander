@@ -3,6 +3,7 @@ from pygame.locals import KEYDOWN, K_RETURN, K_DOWN, K_UP, K_SPACE
 from pywander.boards.base import BoardBase
 from pywander.boards.won import WonBoard
 from pywander.sprites.ship import ShipSprite
+from pywander.sprites.enemy import EnemySprite
 from pywander.sprites.bullet import BulletSprite
 
 
@@ -34,14 +35,17 @@ class GameBoard(BoardBase):
         self.ship.image.rect.top = int(self.ship_top)
         self.ship.draw_on_surface(surface)
 
-        if pygame.sprite.groupcollide(self.bullets_group, self.enemy_group, 0, 0):
-            print 'Enemy down...'
+        for enemy in self.enemy_group.sprites():
+            enemy.draw_on_surface(surface)
+
+        for hit in pygame.sprite.groupcollide(self.bullets_group, self.enemy_group, 1, 1):
+            pass
 
     def process_inputs(self, events):
         for event in events:
             if event.type == KEYDOWN:
                 if event.key == K_RETURN:
-                    self.switch_board = True
+                    self.add_enemy()
 
         key = pygame.key.get_pressed()
         if key[K_DOWN]:
@@ -73,3 +77,9 @@ class GameBoard(BoardBase):
             bullet.image.rect.top = self.ship.image.rect.top + 45
             self.bullets_group.add(bullet)
             self.last_fire_time = time_now
+
+    def add_enemy(self):
+        enemy = EnemySprite()
+        enemy.image.rect.left = 590
+        enemy.image.rect.top = 150
+        self.enemy_group.add(enemy)
