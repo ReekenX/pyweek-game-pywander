@@ -1,13 +1,14 @@
 from pygame.locals import KEYDOWN
-from boards.base import BoardBase
-from objects.label import LabelObject
+from pywander.boards.base import BoardBase
+from pywander.boards.game import GameBoard
+from pywander.objects.label import LabelObject
 
 
-class LoseBoard(BoardBase):
+class StartupBoard(BoardBase):
     switch_board = False
 
     def __init__(self):
-        self.label = LabelObject('Board to show that you lose...')
+        self.label = LabelObject('Press ENTER to start the game...')
 
     def process_draw_on_surface(self, surface):
         self.label.draw_on_surface(surface)
@@ -21,4 +22,4 @@ class LoseBoard(BoardBase):
         return self.switch_board
 
     def get_next_board(self):
-        return None
+        return GameBoard()

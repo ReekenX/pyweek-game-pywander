@@ -1,7 +1,7 @@
 from pygame.locals import KEYDOWN
-from boards.base import BoardBase
-from boards.won import WonBoard
-from objects.label import LabelObject
+from pywander.boards.base import BoardBase
+from pywander.boards.won import WonBoard
+from pywander.objects.label import LabelObject
 
 
 class GameBoard(BoardBase):

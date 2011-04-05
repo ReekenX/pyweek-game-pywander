@@ -1,5 +1,5 @@
 import pygame
-from objects.base import ObjectBase
+from pywander.objects.base import ObjectBase
 
 
 class LabelObject(ObjectBase):
