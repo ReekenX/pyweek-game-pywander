@@ -96,8 +96,8 @@ class GameBoard(BoardBase):
         time_now = pygame.time.get_ticks()
         if self.last_fire_time + self.fire_delay < time_now:
             bullet = BulletSprite()
-            bullet.image.rect.left = 50
-            bullet.image.rect.top = self.ship.image.rect.top + 45
+            bullet.image.rect.left = self.ship.image.rect.width / 2
+            bullet.image.rect.top = self.ship.image.rect.top + (self.ship.image.rect.height / 2 - 9)
             self.bullets_group.add(bullet)
             self.last_fire_time = time_now
 
