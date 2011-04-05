@@ -3,6 +3,7 @@ import sys
 import pygame
 from pywander.boards.startup import StartupBoard
 
+
 def main():
     os.environ['SDL_VIDEO_WINDOW_POS'] = '400,200'
     SCREEN_WIDTH = 640
