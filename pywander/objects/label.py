@@ -1,17 +1,16 @@
+import os
 import pygame
 from pywander.objects.base import ObjectBase
 
 
 class LabelObject(ObjectBase):
-    name = None
     size = 12
     text = ''
     alias = 1
     color = (0, 0, 0)
 
-    def __init__(self, text, name=None, size=12, color=(0, 0, 0), alias=1):
+    def __init__(self, text, size=12, color=(0, 0, 0), alias=1):
         self.text = text
-        self.name = name
         self.size = size
         self.color = color
         self.alias = alias
@@ -27,5 +26,5 @@ class LabelObject(ObjectBase):
         return self.color
 
     def recreate_surface_object(self):
-        font = pygame.font.SysFont(self.name, self.size, True)
+        font = pygame.font.Font(os.path.join('data', 'fonts', 'Flames.ttf'), self.size)
         self.surface_to_draw = font.render(self.text, self.alias, self.color)
