@@ -111,6 +111,9 @@ class GameBoard(BoardBase):
         enemy.image.rect.top = key * 30
         self.enemy_group.add(enemy)
 
+    def add_boss(self, key):
+        pass
+
     def read_level_info(self):
         time_now = pygame.time.get_ticks()
         if self.last_file_read + self.level_speed < time_now:
@@ -121,5 +124,7 @@ class GameBoard(BoardBase):
                     self.add_enemy(key)
                 if obj == 'O':
                     self.add_asteroid(key)
+                if obj == '@':
+                    self.add_boss(key)
                 key += 1
             self.last_file_read = time_now
