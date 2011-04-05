@@ -1,3 +1,4 @@
+import os
 import pygame
 from pygame.locals import KEYDOWN, K_RETURN, K_DOWN, K_UP, K_SPACE
 from pywander.boards.base import BoardBase
@@ -18,11 +19,18 @@ class GameBoard(BoardBase):
     ship = None
     bullets_group = None
     enemy_group = None
+    
+    level_file = None
+    last_file_read = 0
+    level_speed = 1000
 
     def __init__(self):
         self.ship = ShipSprite()
         self.bullets_group = pygame.sprite.Group()
         self.enemy_group = pygame.sprite.Group()
+
+        self.level_file = open(os.path.join('data', 'level.txt'))
+        self.level_file.readline()  # First line indicates just limit of file width
 
     def process_draw_on_surface(self, surface):
         for bullet in self.bullets_group.sprites():
@@ -41,11 +49,13 @@ class GameBoard(BoardBase):
         for hit in pygame.sprite.groupcollide(self.bullets_group, self.enemy_group, 1, 1):
             pass
 
+        self.read_level_info()
+
     def process_inputs(self, events):
         for event in events:
             if event.type == KEYDOWN:
                 if event.key == K_RETURN:
-                    self.add_enemy()
+                    self.switch_board = True
 
         key = pygame.key.get_pressed()
         if key[K_DOWN]:
@@ -78,8 +88,19 @@ class GameBoard(BoardBase):
             self.bullets_group.add(bullet)
             self.last_fire_time = time_now
 
-    def add_enemy(self):
+    def add_enemy(self, key):
         enemy = EnemySprite()
-        enemy.image.rect.left = 590
-        enemy.image.rect.top = 150
+        enemy.image.rect.left = 680
+        enemy.image.rect.top = key * 30
         self.enemy_group.add(enemy)
+
+    def read_level_info(self):
+        time_now = pygame.time.get_ticks()
+        if self.last_file_read + self.level_speed < time_now:
+            line = self.level_file.readline()
+            key = 0
+            for obj in line:
+                if obj == 'X':
+                    self.add_enemy(key)
+                key += 1
+            self.last_file_read = time_now
