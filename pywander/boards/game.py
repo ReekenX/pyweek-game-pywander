@@ -53,9 +53,11 @@ class GameBoard(BoardBase):
         for enemy in self.enemy_group.sprites():
             enemy.draw_on_surface(surface)
 
-        for hit in pygame.sprite.groupcollide(self.bullets_group, self.enemy_group, 1, 1):
-            pass
-
+        for hit in pygame.sprite.groupcollide(self.enemy_group, self.bullets_group, 1, 1):
+            if isinstance(hit, BossSprite):
+                self.status = PLAYER_WON
+                return False
+        
         if pygame.sprite.spritecollideany(self.ship, self.enemy_group):
             self.status = PLAYER_LOSE
         else:
@@ -112,7 +114,10 @@ class GameBoard(BoardBase):
         self.enemy_group.add(enemy)
 
     def add_boss(self, key):
-        pass
+        enemy = BossSprite()
+        enemy.image.rect.left = 420
+        enemy.image.rect.top = key * 30
+        self.enemy_group.add(enemy)
 
     def read_level_info(self):
         time_now = pygame.time.get_ticks()
