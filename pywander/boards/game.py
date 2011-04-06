@@ -124,6 +124,10 @@ class GameBoard(BoardBase):
         else:
             self.read_level_info()
 
+        buffer = pygame.image.tostring(surface, 'RGB')
+        self.buffer = buffer
+        self.buffer_size = surface.get_size()
+
     def process_inputs(self, events):
         key = pygame.key.get_pressed()
         if key[K_DOWN]:
@@ -137,13 +141,14 @@ class GameBoard(BoardBase):
         return self.status is not None
 
     def get_next_board(self):
+        from pywander.boards.switch import SwitchBoard
         from pywander.boards.won import WonBoard
         from pywander.boards.lose import LoseBoard
 
         if self.status == PLAYER_WON:
-            return WonBoard(self.level + 1)
+            return SwitchBoard(self.buffer, self.buffer_size, WonBoard(self.level + 1))
         else:
-            return LoseBoard()
+            return SwitchBoard(self.buffer, self.buffer_size, LoseBoard())
 
     def move_ship_down(self):
         if self.ship.image.rect.top + self.ship_speed < 380:

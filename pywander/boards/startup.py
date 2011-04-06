@@ -1,5 +1,7 @@
+import pygame
 from pygame.locals import KEYDOWN
 from pywander.boards.base import BoardBase
+from pywander.boards.switch import SwitchBoard
 from pywander.boards.game import GameBoard
 from pywander.objects.label import LabelObject
 from pywander.objects.image import ImageObject
@@ -44,6 +46,10 @@ class StartupBoard(BoardBase):
         for label in self.labels:
             label.draw_on_surface(surface)
 
+        buffer = pygame.image.tostring(surface, 'RGB')
+        self.buffer = buffer
+        self.buffer_size = surface.get_size()
+
     def process_inputs(self, events):
         for event in events:
             if event.type == KEYDOWN:
@@ -53,4 +59,4 @@ class StartupBoard(BoardBase):
         return self.switch_board
 
     def get_next_board(self):
-        return GameBoard()
+        return SwitchBoard(self.buffer, self.buffer_size, GameBoard())
