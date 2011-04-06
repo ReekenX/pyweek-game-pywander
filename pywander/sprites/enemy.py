@@ -1,5 +1,7 @@
+import random
 import pygame
 from pywander.sprites.base import SpriteBase
+from pywander.sprites.bullet import BulletSprite
 from pywander.objects.image import ImageObject
 
 
@@ -9,6 +11,9 @@ class EnemySprite(SpriteBase):
     speed = 0.24
     time = 0
     x_position = 680
+
+    last_fire_time = 0
+    fire_time_delay = 2500
 
     def __init__(self, *args, **kwargs):
         super(EnemySprite, self).__init__(*args, **kwargs)
@@ -30,6 +35,16 @@ class EnemySprite(SpriteBase):
                 self.image.rect = tmp_rect
                 self.explosion_frame += 1
                 super(EnemySprite, self).draw_on_surface(surface, game_board)
+
+        if random.randint(1, 6) == 6:
+            time_now = pygame.time.get_ticks()
+            if self.last_fire_time + self.fire_time_delay < time_now:
+                bullet = BulletSprite(False)
+                bullet.image.rect.left = self.image.rect.left + self.image.rect.width / 2 - 4
+                bullet.image.rect.top = self.image.rect.top + self.image.rect.height / 2 - 9
+                bullet.rect = bullet.image.rect
+                game_board.enemy_group.add(bullet)
+                self.last_fire_time = time_now
 
     def show_explosion(self):
         self.start_explosion = True

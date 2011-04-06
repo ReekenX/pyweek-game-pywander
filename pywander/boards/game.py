@@ -96,6 +96,9 @@ class GameBoard(BoardBase):
             if isinstance(hit, AsteroidSprite):
                 self.score += 9
 
+            if isinstance(hit, BulletSprite):
+                hit.kill()
+
             if isinstance(hit, BossSprite):
                 self.score += 13
                 hit.hit()

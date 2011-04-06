@@ -8,6 +8,7 @@ from pywander.objects.image import ImageObject
 class BossSprite(SpriteBase):
     moving_up = False
     life = 100
+
     last_fire_time = 0
     fire_time_delay = 1500
     hole = 1
