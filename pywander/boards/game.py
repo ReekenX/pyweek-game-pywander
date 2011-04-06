@@ -94,9 +94,14 @@ class GameBoard(BoardBase):
                 self.inactive_group.remove(inactive)
 
         for hit in pygame.sprite.groupcollide(self.enemy_group, self.bullets_group, 0, 1):
+            if isinstance(hit, AsteroidSprite):
+                self.score += 9
+
             if isinstance(hit, BossSprite):
-                self.status = PLAYER_WON
-                return False
+                hit.hit()
+                if hit.life <= 0:
+                    self.status = PLAYER_WON
+                    return False
 
             if isinstance(hit, EnemySprite):
                 self.score += 7

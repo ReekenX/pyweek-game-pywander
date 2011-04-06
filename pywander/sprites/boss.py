@@ -4,6 +4,7 @@ from pywander.objects.image import ImageObject
 
 class BossSprite(SpriteBase):
     moving_up = False
+    life = 100
 
     def __init__(self, *args, **kwargs):
         super(BossSprite, self).__init__(*args, **kwargs)
@@ -22,3 +23,6 @@ class BossSprite(SpriteBase):
                 self.moving_up = True
 
         super(BossSprite, self).draw_on_surface(surface)
+
+    def hit(self):
+        self.life -= 25
