@@ -7,11 +7,14 @@ class BulletSprite(SpriteBase):
     speed = 0.39
     time = 0
     x_position = None
+    is_ship_bullet = True
 
-    def __init__(self, from_ship=True, *args, **kwargs):
+    def __init__(self, is_ship_bullet=True, *args, **kwargs):
         super(BulletSprite, self).__init__(*args, **kwargs)
-        if from_ship:
-            self.image = ImageObject('ship_bullet.png')
+        self.image = ImageObject('ship_bullet.png')
+        self.is_ship_bullet = is_ship_bullet
+        if not self.is_ship_bullet:
+            self.image.surface_to_draw = pygame.transform.flip(self.image.surface_to_draw, True, False)
         self.time = pygame.time.get_ticks()
 
     def draw_on_surface(self, surface, game_board):
@@ -21,6 +24,9 @@ class BulletSprite(SpriteBase):
         time_before = self.time
         self.time = pygame.time.get_ticks()
         elapsed = self.time - time_before
-        self.x_position += int(elapsed * self.speed)
+        if self.is_ship_bullet:
+            self.x_position += int(elapsed * self.speed)
+        else:
+            self.x_position -= int(elapsed * self.speed)
         self.image.rect.left = int(self.x_position)
         super(BulletSprite, self).draw_on_surface(surface, game_board)

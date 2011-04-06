@@ -97,6 +97,7 @@ class GameBoard(BoardBase):
                 self.score += 9
 
             if isinstance(hit, BossSprite):
+                self.score += 13
                 hit.hit()
                 if hit.life <= 0:
                     self.status = PLAYER_WON
@@ -108,7 +109,8 @@ class GameBoard(BoardBase):
                 hit.show_explosion()
                 self.inactive_group.add(hit)
 
-        if pygame.sprite.spritecollideany(self.ship, self.enemy_group):
+        hit = pygame.sprite.spritecollideany(self.ship, self.enemy_group)
+        if hit:
             self.status = PLAYER_LOSE
         else:
             self.read_level_info()
@@ -165,7 +167,7 @@ class GameBoard(BoardBase):
 
     def add_boss(self, key):
         enemy = BossSprite()
-        enemy.image.rect.left = 420
+        enemy.image.rect.left = 645
         enemy.image.rect.top = key * 30
         self.enemy_group.add(enemy)
 
