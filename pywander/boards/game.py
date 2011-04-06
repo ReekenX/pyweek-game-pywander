@@ -17,9 +17,10 @@ PLAYER_LOSE = 2
 class GameBoard(BoardBase):
     status = None
     score = 0
+    life = 100
 
     ship_speed = 0.39
-    ship_top = 0.00
+    ship_top = 180.00
     bullets = []
     last_fire_time = 0
     fire_delay = 500
@@ -55,6 +56,10 @@ class GameBoard(BoardBase):
         score_label = LabelObject('Score: %d' % self.score, 14, (160, 160, 160))
         score_label.change_realign('top-right', right=15, top=15)
         score_label.draw_on_surface(surface)
+
+        life_label = LabelObject('Life: %d' % self.life, 14, (160, 160, 160))
+        life_label.change_realign('top-left', left=15, top=15)
+        life_label.draw_on_surface(surface)
 
         for bullet in self.bullets_group.sprites():
             bullet.image.rect.left += 1
