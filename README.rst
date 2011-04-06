@@ -1,5 +1,5 @@
-Pywander - finish level 9 times
-===============================
+Pywander - save the world in less than 9 times
+==============================================
 
 Entry in PyWeek #12  <http://www.pyweek.org/12/>
 URL: http://www.jarmalavicius.lt

@@ -13,7 +13,7 @@ def main():
     pygame.init()
     surface = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT),
                                   pygame.DOUBLEBUF)
-    pygame.display.set_caption('Pywander - Finish level 9 times')
+    pygame.display.set_caption('Pywander - save the world in less than 9 times')
 
     clock = pygame.time.Clock()
     board = StartupBoard()
