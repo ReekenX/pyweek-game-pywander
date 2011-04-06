@@ -3,16 +3,6 @@ TODO
 
 Ship movements to left and right.
 
-Moving background.
-
-Enemies should have ability to fire.
-
-THE BOSS should have ability to fire.
-
-THE BOSS should only 9 times on complete game.
-
 Life progress bar.
 
-Maybe some special items like live and etc.
-
-Testing/Planning idea.
+Windows And Mac OS testing.
