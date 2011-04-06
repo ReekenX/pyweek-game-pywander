@@ -16,27 +16,27 @@ class StartupBoard(BoardBase):
         self.background.draw_on_surface(surface)
 
         if self.labels == []:
-            label = LabelObject('PYWANDER', 37, (160, 160, 160))
+            label = LabelObject('PYWANDER', 37)
             label.rect.left = 90
             label.rect.top = 90
             self.labels.append(label)
 
-            label = LabelObject('IS A GAME...', 15, (160, 160, 160))
+            label = LabelObject('IS A GAME...', 15)
             label.rect.left = 329
             label.rect.top = 109
             self.labels.append(label)
 
-            label = LabelObject('WHERE YOU MUST SAVE THE WORLD IN', 15, (160, 160, 160))
+            label = LabelObject('WHERE YOU MUST SAVE THE WORLD IN', 15)
             label.rect.left = 60
             label.rect.top = 170
             self.labels.append(label)
 
-            label = LabelObject('LESS THAN...', 25, (160, 160, 160))
+            label = LabelObject('LESS THAN...', 25)
             label.rect.left = 410
             label.rect.top = 170
             self.labels.append(label)
 
-            label = LabelObject('9 TIMES', 121, (160, 160, 160))
+            label = LabelObject('9 TIMES', 121)
             label.rect.left = 31
             label.rect.top = 184
             self.labels.append(label)

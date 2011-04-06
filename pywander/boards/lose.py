@@ -9,17 +9,17 @@ class LoseBoard(BoardBase):
 
     def process_draw_on_surface(self, surface):
         if self.labels == []:
-            label = LabelObject('SORRY', 121, (160, 160, 160))
+            label = LabelObject('SORRY', 121)
             label.rect.left = 71
             label.rect.top = 104
             self.labels.append(label)
 
-            label = LabelObject('BUT YOU LOSE. JUST DON''T CRY,', 27, (160, 160, 160))
+            label = LabelObject('BUT YOU LOSE. JUST DON''T CRY,', 27)
             label.rect.left = 71
             label.rect.top = 224
             self.labels.append(label)
 
-            label = LabelObject('YOU CAN PLAY AGAIN! :)', 27, (160, 160, 160))
+            label = LabelObject('YOU CAN PLAY AGAIN! :)', 27)
             label.rect.left = 71
             label.rect.top = 264
             self.labels.append(label)

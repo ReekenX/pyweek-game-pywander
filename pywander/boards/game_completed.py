@@ -10,22 +10,22 @@ class GameCompletedBoard(BoardBase):
 
     def process_draw_on_surface(self, surface):
         if self.labels == []:
-            label = LabelObject('THE END', 81, (160, 160, 160))
+            label = LabelObject('THE END', 81)
             label.rect.left = 51
             label.rect.top = 114
             self.labels.append(label)
 
-            label = LabelObject('This game was developed for Pyweek', 23, (160, 160, 160))
+            label = LabelObject('This game was developed for Pyweek', 23)
             label.rect.left = 51
             label.rect.top = 204
             self.labels.append(label)
 
-            label = LabelObject('challenge 12. Released under GPL.', 23, (160, 160, 160))
+            label = LabelObject('challenge 12. Released under GPL.', 23)
             label.rect.left = 51
             label.rect.top = 244
             self.labels.append(label)
 
-            label = LabelObject('AUTHOR: REMIGIJUS JARMALAVICIUS', 23, (160, 160, 160))
+            label = LabelObject('AUTHOR: REMIGIJUS JARMALAVICIUS', 23)
             label.rect.left = 51
             label.rect.top = 344
             self.labels.append(label)

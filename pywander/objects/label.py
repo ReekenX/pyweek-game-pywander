@@ -9,7 +9,7 @@ class LabelObject(ObjectBase):
     alias = 1
     color = (0, 0, 0)
 
-    def __init__(self, text, size=12, color=(0, 0, 0), alias=1):
+    def __init__(self, text, size=12, color=(102, 102, 102), alias=1):
         self.text = text
         self.size = size
         self.color = color

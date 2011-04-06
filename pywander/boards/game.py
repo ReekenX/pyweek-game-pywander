@@ -24,9 +24,14 @@ class GameBoard(BoardBase):
 
     bullets = []
     last_fire_time = 0
-    fire_delay = 1200
+    fire_delay = 1020
 
     background = None
+    background_x = 0
+    background_speed = 1.07
+    background_time = 0
+    background_width = 3161
+
     ship = None
     bullets_group = None
     enemy_group = None
@@ -41,6 +46,7 @@ class GameBoard(BoardBase):
         self.level = level
 
         self.background = ImageObject('background.png')
+        self.background_time = pygame.time.get_ticks()
 
         self.ship = ShipSprite()
         self.bullets_group = pygame.sprite.Group()
@@ -51,13 +57,20 @@ class GameBoard(BoardBase):
         self.level_file.readline()  # First line indicates just limit of file width
 
     def process_draw_on_surface(self, surface):
-        self.background.draw_on_surface(surface)
+        time_before = self.background_time
+        self.background_time = pygame.time.get_ticks()
+        elapsed = self.background_time - time_before
+        self.background_x -= int(elapsed * self.background_speed) % self.background_width
+        for i in range(2):
+            self.background.rect.left = int(self.background_x) + (self.background_width * (i - 1))
+            print self.background.rect.left
+            self.background.draw_on_surface(surface)
 
-        score_label = LabelObject('Score: %d' % self.score, 14, (160, 160, 160))
+        score_label = LabelObject('Score: %d' % self.score, 14)
         score_label.change_realign('top-right', right=15, top=15)
         score_label.draw_on_surface(surface)
 
-        life_label = LabelObject('Life: %d' % self.life, 14, (160, 160, 160))
+        life_label = LabelObject('Life: %d' % self.life, 14)
         life_label.change_realign('top-left', left=15, top=15)
         life_label.draw_on_surface(surface)
 
@@ -79,13 +92,14 @@ class GameBoard(BoardBase):
             if inactive.is_completed():
                 self.inactive_group.remove(inactive)
 
-        for hit in pygame.sprite.groupcollide(self.enemy_group, self.bullets_group, 1, 1):
+        for hit in pygame.sprite.groupcollide(self.enemy_group, self.bullets_group, 0, 1):
             if isinstance(hit, BossSprite):
                 self.status = PLAYER_WON
                 return False
 
             if isinstance(hit, EnemySprite):
                 self.score += 7
+                hit.kill()
                 hit.show_explosion()
                 self.inactive_group.add(hit)
 

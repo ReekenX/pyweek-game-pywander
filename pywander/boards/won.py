@@ -16,18 +16,18 @@ class WonBoard(BoardBase):
     def process_draw_on_surface(self, surface):
         if self.level < 10:
             if self.labels == []:
-                label = LabelObject('CONGRATS', 81, (160, 160, 160))
+                label = LabelObject('CONGRATS', 81)
                 label.rect.left = 61
                 label.rect.top = 114
                 self.labels.append(label)
     
                 level_finished = self.level - 1
-                label = LabelObject('YOU HAVE JUST FINISHED LEVEL %d,' % level_finished, 27, (160, 160, 160))
+                label = LabelObject('YOU HAVE JUST FINISHED LEVEL %d,' % level_finished, 27)
                 label.rect.left = 61
                 label.rect.top = 204
                 self.labels.append(label)
 
-                label = LabelObject('PREPARE FOR NEXT LEVEL!', 27, (160, 160, 160))
+                label = LabelObject('PREPARE FOR NEXT LEVEL!', 27)
                 label.rect.left = 61
                 label.rect.top = 244
                 self.labels.append(label)
@@ -36,17 +36,17 @@ class WonBoard(BoardBase):
                 label.draw_on_surface(surface)
         else:
             if self.labels == []:
-                label = LabelObject('COMPLETED', 81, (160, 160, 160))
+                label = LabelObject('COMPLETED', 81)
                 label.rect.left = 41
                 label.rect.top = 114
                 self.labels.append(label)
     
-                label = LabelObject('YOU HAVE JUST FINISHED LAST', 27, (160, 160, 160))
+                label = LabelObject('YOU HAVE JUST FINISHED LAST', 27)
                 label.rect.left = 41
                 label.rect.top = 204
                 self.labels.append(label)
 
-                label = LabelObject('LEVEL, CONGRATS!', 27, (160, 160, 160))
+                label = LabelObject('LEVEL, CONGRATS!', 27)
                 label.rect.left = 41
                 label.rect.top = 244
                 self.labels.append(label)

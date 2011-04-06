@@ -31,7 +31,7 @@ def main():
         board = board.update(surface, events)
 
         fps = clock.get_fps()
-        fps_label = LabelObject('FPS: %d' % fps, 14, (160, 160, 160))
+        fps_label = LabelObject('FPS: %d' % fps, 14)
         fps_label.change_realign('bottom-left', left=15, bottom=25)
         fps_label.draw_on_surface(surface)
 
