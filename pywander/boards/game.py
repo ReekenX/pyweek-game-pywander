@@ -19,18 +19,19 @@ class GameBoard(BoardBase):
     score = 0
     life = 100
 
-    ship_speed = 0.39
+    ship_speed = 1.99
     ship_top = 180.00
+
     bullets = []
     last_fire_time = 0
-    fire_delay = 500
+    fire_delay = 1200
 
     background = None
     ship = None
     bullets_group = None
     enemy_group = None
     inactive_group = None
-    
+
     level = 1
     level_file = None
     last_file_read = 0
@@ -50,8 +51,7 @@ class GameBoard(BoardBase):
         self.level_file.readline()  # First line indicates just limit of file width
 
     def process_draw_on_surface(self, surface):
-        # TODO: Performance issues here...
-        # self.background.draw_on_surface(surface)
+        self.background.draw_on_surface(surface)
 
         score_label = LabelObject('Score: %d' % self.score, 14, (160, 160, 160))
         score_label.change_realign('top-right', right=15, top=15)
@@ -61,8 +61,8 @@ class GameBoard(BoardBase):
         life_label.change_realign('top-left', left=15, top=15)
         life_label.draw_on_surface(surface)
 
+
         for bullet in self.bullets_group.sprites():
-            bullet.image.rect.left += 1
             if bullet.image.rect.left >= 640:
                 self.bullets_group.remove(bullet)
             else:
@@ -73,7 +73,7 @@ class GameBoard(BoardBase):
 
         for enemy in self.enemy_group.sprites():
             enemy.draw_on_surface(surface)
-        
+
         for inactive in self.inactive_group.sprites():
             inactive.draw_on_surface(surface)
             if inactive.is_completed():
@@ -83,7 +83,7 @@ class GameBoard(BoardBase):
             if isinstance(hit, BossSprite):
                 self.status = PLAYER_WON
                 return False
-            
+
             if isinstance(hit, EnemySprite):
                 self.score += 7
                 hit.show_explosion()

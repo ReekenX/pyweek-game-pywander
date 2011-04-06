@@ -2,6 +2,7 @@ import os
 import sys
 import pygame
 from pywander.boards.startup import StartupBoard
+from pywander.objects.label import LabelObject
 
 
 def main():
@@ -19,7 +20,6 @@ def main():
     board = StartupBoard()
 
     while board is not None:
-        clock.tick(5000)
         surface.fill(SCREEN_BACKGROUND)
 
         events = pygame.event.get()
@@ -29,4 +29,11 @@ def main():
                 sys.exit(0)
 
         board = board.update(surface, events)
+
+        fps = clock.get_fps()
+        fps_label = LabelObject('FPS: %d' % fps, 14, (160, 160, 160))
+        fps_label.change_realign('bottom-left', left=15, bottom=25)
+        fps_label.draw_on_surface(surface)
+
         pygame.display.flip()
+        clock.tick(50)
