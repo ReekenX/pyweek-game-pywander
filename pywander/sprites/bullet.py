@@ -14,7 +14,7 @@ class BulletSprite(SpriteBase):
             self.image = ImageObject('ship_bullet.png')
         self.time = pygame.time.get_ticks()
 
-    def draw_on_surface(self, surface):
+    def draw_on_surface(self, surface, game_board):
         if self.x_position is None:
             self.x_position = self.image.rect.left
 
@@ -23,4 +23,4 @@ class BulletSprite(SpriteBase):
         elapsed = self.time - time_before
         self.x_position += int(elapsed * self.speed)
         self.image.rect.left = int(self.x_position)
-        super(BulletSprite, self).draw_on_surface(surface)
+        super(BulletSprite, self).draw_on_surface(surface, game_board)

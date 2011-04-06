@@ -13,11 +13,11 @@ class AsteroidSprite(SpriteBase):
         self.image = ImageObject('asteroid_1.png')
         self.time = pygame.time.get_ticks()
 
-    def draw_on_surface(self, surface):
+    def draw_on_surface(self, surface, game_board):
         self.image.rect.left -= 2
         time_before = self.time
         self.time = pygame.time.get_ticks()
         elapsed = self.time - time_before
         self.x_position -= int(elapsed * self.speed)
         self.image.rect.left = int(self.x_position)
-        super(AsteroidSprite, self).draw_on_surface(surface)
+        super(AsteroidSprite, self).draw_on_surface(surface, game_board)

@@ -65,31 +65,30 @@ class GameBoard(BoardBase):
             self.background_x += self.background_width
         for i in range(3):
             self.background.rect.left = int(self.background_x) + (self.background_width * (i - 1))
-            self.background.draw_on_surface(surface)
+            self.background.draw_on_surface(surface, self)
 
         score_label = LabelObject('Score: %d' % self.score, 14)
         score_label.change_realign('top-right', right=15, top=15)
-        score_label.draw_on_surface(surface)
+        score_label.draw_on_surface(surface, self)
 
         life_label = LabelObject('Life: %d' % self.life, 14)
         life_label.change_realign('top-left', left=15, top=15)
-        life_label.draw_on_surface(surface)
-
+        life_label.draw_on_surface(surface, self)
 
         for bullet in self.bullets_group.sprites():
             if bullet.image.rect.left >= 640:
                 self.bullets_group.remove(bullet)
             else:
-                bullet.draw_on_surface(surface)
+                bullet.draw_on_surface(surface, self)
 
         self.ship.image.rect.top = int(self.ship_top)
-        self.ship.draw_on_surface(surface)
+        self.ship.draw_on_surface(surface, self)
 
         for enemy in self.enemy_group.sprites():
-            enemy.draw_on_surface(surface)
+            enemy.draw_on_surface(surface, self)
 
         for inactive in self.inactive_group.sprites():
-            inactive.draw_on_surface(surface)
+            inactive.draw_on_surface(surface, self)
             if inactive.is_completed():
                 self.inactive_group.remove(inactive)
 

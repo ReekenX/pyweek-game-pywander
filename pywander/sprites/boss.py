@@ -10,7 +10,7 @@ class BossSprite(SpriteBase):
         super(BossSprite, self).__init__(*args, **kwargs)
         self.image = ImageObject('boss.png')
 
-    def draw_on_surface(self, surface):
+    def draw_on_surface(self, surface, game_board):
         if self.moving_up:
             if self.image.rect.top > 0:
                 self.image.rect.top -= 1
@@ -22,7 +22,7 @@ class BossSprite(SpriteBase):
             else:
                 self.moving_up = True
 
-        super(BossSprite, self).draw_on_surface(surface)
+        super(BossSprite, self).draw_on_surface(surface, game_board)
 
     def hit(self):
         self.life -= 25

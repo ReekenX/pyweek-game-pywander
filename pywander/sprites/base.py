@@ -8,6 +8,6 @@ class SpriteBase(pygame.sprite.Sprite):
         self.image = ImageObject('ship.png')
         self.rect = self.image.rect
 
-    def draw_on_surface(self, surface):
+    def draw_on_surface(self, surface, game_board):
         self.image.draw_on_surface(surface)
         self.rect = self.image.rect
