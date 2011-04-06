@@ -142,3 +142,6 @@ class ObjectBase(object):
         elif self.realign == 'bottom-right':
             self.rect.midright = (surface.get_rect().width - self.realign_params['right'],
                                   surface.get_rect().height - self.realign_params['bottom'])
+        elif self.realign == 'top-right':
+            self.rect.midright = (surface.get_rect().width - self.realign_params['right'],
+                                  self.realign_params['top'])

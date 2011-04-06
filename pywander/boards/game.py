@@ -3,6 +3,7 @@ import pygame
 from pygame.locals import K_DOWN, K_UP, K_SPACE
 from pywander.boards.base import BoardBase
 from pywander.objects.image import ImageObject
+from pywander.objects.label import LabelObject
 from pywander.sprites.ship import ShipSprite
 from pywander.sprites.enemy import EnemySprite
 from pywander.sprites.boss import BossSprite
@@ -15,6 +16,8 @@ PLAYER_LOSE = 2
 
 class GameBoard(BoardBase):
     status = None
+    score = 0
+
     ship_speed = 0.39
     ship_top = 0.00
     bullets = []
@@ -49,6 +52,10 @@ class GameBoard(BoardBase):
         # TODO: Performance issues here...
         # self.background.draw_on_surface(surface)
 
+        score_label = LabelObject('Score: %d' % self.score, 14, (160, 160, 160))
+        score_label.change_realign('top-right', right=15, top=15)
+        score_label.draw_on_surface(surface)
+
         for bullet in self.bullets_group.sprites():
             bullet.image.rect.left += 1
             if bullet.image.rect.left >= 640:
@@ -73,6 +80,7 @@ class GameBoard(BoardBase):
                 return False
             
             if isinstance(hit, EnemySprite):
+                self.score += 7
                 hit.show_explosion()
                 self.inactive_group.add(hit)
 
