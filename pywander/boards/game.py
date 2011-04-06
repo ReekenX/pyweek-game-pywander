@@ -28,7 +28,7 @@ class GameBoard(BoardBase):
 
     background = None
     background_x = 0
-    background_speed = 1.07
+    background_speed = 0.07
     background_time = 0
     background_width = 3161
 
@@ -60,10 +60,11 @@ class GameBoard(BoardBase):
         time_before = self.background_time
         self.background_time = pygame.time.get_ticks()
         elapsed = self.background_time - time_before
-        self.background_x -= int(elapsed * self.background_speed) % self.background_width
-        for i in range(2):
+        self.background_x -= int(elapsed * self.background_speed)
+        if self.background_x < -self.background_width:
+            self.background_x += self.background_width
+        for i in range(3):
             self.background.rect.left = int(self.background_x) + (self.background_width * (i - 1))
-            print self.background.rect.left
             self.background.draw_on_surface(surface)
 
         score_label = LabelObject('Score: %d' % self.score, 14)
