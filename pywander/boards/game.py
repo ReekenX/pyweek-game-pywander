@@ -42,6 +42,8 @@ class GameBoard(BoardBase):
     last_file_read = 0
     level_speed = 1000
 
+    attempts_left = 9
+
     def __init__(self, level=1):
         self.level = level
 
@@ -73,6 +75,10 @@ class GameBoard(BoardBase):
 
         life_label = LabelObject('Life: %d' % self.life, 14)
         life_label.change_realign('top-left', left=15, top=15)
+        life_label.draw_on_surface(surface, self)
+
+        life_label = LabelObject('Attempts left: %d' % self.attempts_left, 14)
+        life_label.change_realign('top-center', top=15)
         life_label.draw_on_surface(surface, self)
 
         for bullet in self.bullets_group.sprites():
@@ -113,7 +119,7 @@ class GameBoard(BoardBase):
                 self.inactive_group.add(hit)
 
         hit = pygame.sprite.spritecollideany(self.ship, self.enemy_group)
-        if hit:
+        if hit or self.attempts_left == 0:
             self.status = PLAYER_LOSE
         else:
             self.read_level_info()

@@ -148,6 +148,10 @@ class ObjectBase(object):
         elif self.realign == 'top-right':
             self.rect.right = surface.get_rect().width - self.realign_params['right']
             self.rect.top = self.realign_params['top']
+        if self.realign == 'top-center':
+            self.rect.left = surface.get_rect().width / 2 - self.rect.width / 2
+            self.rect.top = self.realign_params['top']
+            self.change_realign(self.realign)
         elif self.realign == 'top-left':
             self.rect.left = self.realign_params['left']
             self.rect.top = self.realign_params['top']

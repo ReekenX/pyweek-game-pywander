@@ -11,7 +11,8 @@ class BossSprite(SpriteBase):
 
     last_fire_time = 0
     fire_time_delay = 1500
-    hole = 1
+    hole = 1   
+    pause_till = 0
 
     def __init__(self, *args, **kwargs):
         super(BossSprite, self).__init__(*args, **kwargs)
@@ -21,17 +22,26 @@ class BossSprite(SpriteBase):
     def draw_on_surface(self, surface, game_board):
         if self.image.rect.left > 480:
             self.image.rect.left -= 1
+            self.pause_till = pygame.time.get_ticks() + 4500
 
-        if self.moving_up:
-            if self.image.rect.top > 0:
-                self.image.rect.top -= 1
-            else:
-                self.moving_up = False
+        if self.pause_till and self.pause_till < pygame.time.get_ticks():
+            self.image.rect.left -= 1
+            self.image.rect.top -= 1
+
+            if self.image.rect.top < -self.image.rect.height:
+                game_board.enemy_group.remove(self)
+                game_board.attempts_left -= 1
         else:
-            if self.image.rect.top < 470 - self.image.rect.height:
-                self.image.rect.top += 1
+            if self.moving_up:
+                if self.image.rect.top > 0:
+                    self.image.rect.top -= 1
+                else:
+                    self.moving_up = False
             else:
-                self.moving_up = True
+                if self.image.rect.top < 470 - self.image.rect.height:
+                    self.image.rect.top += 1
+                else:
+                    self.moving_up = True
 
         if random.randint(1, 5) == 5:
             time_now = pygame.time.get_ticks()
@@ -51,4 +61,4 @@ class BossSprite(SpriteBase):
         super(BossSprite, self).draw_on_surface(surface, game_board)
 
     def hit(self):
-        self.life -= 25
+        self.life -= 3
