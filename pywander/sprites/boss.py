@@ -61,4 +61,4 @@ class BossSprite(SpriteBase):
         super(BossSprite, self).draw_on_surface(surface, game_board)
 
     def hit(self):
-        self.life -= 3
+        self.life -= 4

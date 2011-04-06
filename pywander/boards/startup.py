@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import KEYDOWN
 from pywander.boards.base import BoardBase
 from pywander.boards.switch import SwitchBoard
-from pywander.boards.game import GameBoard
+from pywander.boards.how_to import HowToBoard
 from pywander.objects.label import LabelObject
 from pywander.objects.image import ImageObject
 
@@ -59,4 +59,4 @@ class StartupBoard(BoardBase):
         return self.switch_board
 
     def get_next_board(self):
-        return SwitchBoard(self.buffer, self.buffer_size, GameBoard())
+        return SwitchBoard(self.buffer, self.buffer_size, HowToBoard())

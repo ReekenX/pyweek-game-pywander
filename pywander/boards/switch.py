@@ -9,7 +9,7 @@ class SwitchBoard(BoardBase):
     image = None
     is_completed = False
     transparency = 0.0
-    transparency_speed = 5.54
+    transparency_speed = 6.54
     go_to_dark = True
 
     def __init__(self, buffer, buffer_size, board_after):
@@ -35,7 +35,7 @@ class SwitchBoard(BoardBase):
         else:
             self.background.draw_on_surface(surface)
 
-            if self.transparency > 0:
+            if self.transparency > 0 + self.transparency_speed:
                 self.transparency -= self.transparency_speed
             else:
                 self.switch_board = True
