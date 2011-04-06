@@ -1,13 +1,19 @@
 from pygame.locals import KEYDOWN
 from pywander.boards.base import BoardBase
 from pywander.objects.label import LabelObject
+from pywander.objects.image import ImageObject
 
 
 class LoseBoard(BoardBase):
     switch_board = False
     labels = []
 
+    def __init__(self, *args, **kwargs):
+        self.background = ImageObject('background.png')
+
     def process_draw_on_surface(self, surface):
+        self.background.draw_on_surface(surface)
+
         if self.labels == []:
             label = LabelObject('SORRY', 121)
             label.rect.left = 71

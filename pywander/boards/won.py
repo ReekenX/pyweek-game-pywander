@@ -3,6 +3,7 @@ from pywander.boards.base import BoardBase
 from pywander.boards.game import GameBoard
 from pywander.boards.game_completed import GameCompletedBoard
 from pywander.objects.label import LabelObject
+from pywander.objects.image import ImageObject
 
 
 class WonBoard(BoardBase):
@@ -12,8 +13,11 @@ class WonBoard(BoardBase):
 
     def __init__(self, level):
         self.level = level
+        self.background = ImageObject('background.png')
 
     def process_draw_on_surface(self, surface):
+        self.background.draw_on_surface(surface)
+
         if self.level < 10:
             if self.labels == []:
                 label = LabelObject('CONGRATS', 81)
