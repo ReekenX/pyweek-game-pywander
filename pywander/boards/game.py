@@ -44,7 +44,6 @@ class GameBoard(BoardBase):
         self.level = level
 
         self.background = ImageObject('background.png')
-        self.background_time = pygame.time.get_ticks()
 
         self.ship = ShipSprite()
         self.bullets_group = pygame.sprite.Group()
@@ -56,8 +55,12 @@ class GameBoard(BoardBase):
 
     def process_draw_on_surface(self, surface):
         time_before = self.background_time
-        self.background_time = pygame.time.get_ticks()
-        elapsed = self.background_time - time_before
+        if self.background_time != 0:
+            self.background_time = pygame.time.get_ticks()
+            elapsed = self.background_time - time_before
+        else:
+            self.background_time = pygame.time.get_ticks()
+            elapsed = 0
         self.background_x -= int(elapsed * self.background_speed)
         if self.background_x < -self.background_width:
             self.background_x += self.background_width
@@ -121,8 +124,11 @@ class GameBoard(BoardBase):
 
         hit = pygame.sprite.spritecollideany(self.ship, self.enemy_group)
         if hit:
-            hit.kill()
-            self.life -= 25
+            if not isinstance(hit, AsteroidSprite):
+                hit.kill()
+                self.life -= 25
+            else:
+                self.status = PLAYER_LOSE
         else:
             self.read_level_info()
 

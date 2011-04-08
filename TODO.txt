@@ -1,8 +1,6 @@
 TODO
 ====
 
-Ship movements to left and right.
-
 Life progress bar.
 
 Windows And Mac OS testing.
