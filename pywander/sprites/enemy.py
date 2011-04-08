@@ -50,4 +50,4 @@ class EnemySprite(SpriteBase):
         self.start_explosion = True
 
     def is_completed(self):
-        return self.explosion_frame == 15
+        return self.explosion_frame == 15 or self.x_position <= -self.image.rect.width

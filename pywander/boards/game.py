@@ -92,12 +92,17 @@ class GameBoard(BoardBase):
         self.ship.draw_on_surface(surface, self)
 
         for enemy in self.enemy_group.sprites():
+            if isinstance(enemy, EnemySprite):
+                if enemy.is_completed():
+                    self.enemy_group.remove(enemy)
             enemy.draw_on_surface(surface, self)
 
         for inactive in self.inactive_group.sprites():
+            if isinstance(enemy, EnemySprite):
+                if inactive.is_completed():
+                    self.inactive_group.remove(inactive)
+                    continue
             inactive.draw_on_surface(surface, self)
-            if inactive.is_completed():
-                self.inactive_group.remove(inactive)
 
         for hit in pygame.sprite.groupcollide(self.enemy_group, self.bullets_group, 0, 1):
             if isinstance(hit, AsteroidSprite):
@@ -121,10 +126,14 @@ class GameBoard(BoardBase):
                 self.inactive_group.add(hit)
 
         hit = pygame.sprite.spritecollideany(self.ship, self.enemy_group)
-        if hit or self.attempts_left == 0:
-            self.status = PLAYER_LOSE
+        if hit:
+            hit.kill()
+            self.life -= 25
         else:
             self.read_level_info()
+
+        if self.attempts_left == 0 or self.life == 0:
+            self.status = PLAYER_LOSE
 
         buffer = pygame.image.tostring(surface, 'RGB')
         self.buffer = buffer
