@@ -18,6 +18,7 @@ class GameBoard(BoardBase):
     status = None
     score = 0
     life = 100
+    boss_life = 100
 
     ship_speed = 1.99
     ship_top = 180.00
@@ -108,6 +109,7 @@ class GameBoard(BoardBase):
             if isinstance(hit, BossSprite):
                 self.score += 13
                 hit.hit()
+                self.boss_life = hit.life
                 if hit.life <= 0:
                     self.status = PLAYER_WON
                     return False
@@ -181,6 +183,7 @@ class GameBoard(BoardBase):
 
     def add_boss(self, key):
         enemy = BossSprite()
+        enemy.life = self.boss_life
         enemy.image.rect.left = 645
         enemy.image.rect.top = key * 30
         self.enemy_group.add(enemy)
