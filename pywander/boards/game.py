@@ -1,6 +1,6 @@
 import os
 import pygame
-from pygame.locals import K_DOWN, K_UP, K_SPACE
+from pygame.locals import K_DOWN, K_UP, K_LEFT, K_RIGHT, K_SPACE
 from pywander.boards.base import BoardBase
 from pywander.objects.image import ImageObject
 from pywander.objects.label import LabelObject
@@ -20,12 +20,7 @@ class GameBoard(BoardBase):
     life = 100
     boss_life = 100
 
-    ship_speed = 1.99
-    ship_top = 180.00
-
     bullets = []
-    last_fire_time = 0
-    fire_delay = 1020
 
     background = None
     background_x = 0
@@ -88,7 +83,6 @@ class GameBoard(BoardBase):
             else:
                 bullet.draw_on_surface(surface, self)
 
-        self.ship.image.rect.top = int(self.ship_top)
         self.ship.draw_on_surface(surface, self)
 
         for enemy in self.enemy_group.sprites():
@@ -142,11 +136,15 @@ class GameBoard(BoardBase):
     def process_inputs(self, events):
         key = pygame.key.get_pressed()
         if key[K_DOWN]:
-            self.move_ship_down()
+            self.ship.move_ship_down()
         if key[K_UP]:
-            self.move_ship_up()
+            self.ship.move_ship_up()
         if key[K_SPACE]:
-            self.fire_bullet()
+            self.ship.fire_bullet(self.bullets_group)
+        if key[K_LEFT]:
+            self.ship.move_ship_left()
+        if key[K_RIGHT]:
+            self.ship.move_ship_right()
 
     def is_time_to_switch_board(self):
         return self.status is not None
@@ -160,23 +158,6 @@ class GameBoard(BoardBase):
             return SwitchBoard(self.buffer, self.buffer_size, WonBoard(self.level + 1))
         else:
             return SwitchBoard(self.buffer, self.buffer_size, LoseBoard())
-
-    def move_ship_down(self):
-        if self.ship.image.rect.top + self.ship_speed < 380:
-            self.ship_top += self.ship_speed
-
-    def move_ship_up(self):
-        if self.ship.image.rect.top - self.ship_speed > 0:
-            self.ship_top -= self.ship_speed
-
-    def fire_bullet(self):
-        time_now = pygame.time.get_ticks()
-        if self.last_fire_time + self.fire_delay < time_now:
-            bullet = BulletSprite()
-            bullet.image.rect.left = self.ship.image.rect.width / 2
-            bullet.image.rect.top = self.ship.image.rect.top + (self.ship.image.rect.height / 2 - 9)
-            self.bullets_group.add(bullet)
-            self.last_fire_time = time_now
 
     def add_enemy(self, key):
         enemy = EnemySprite()
