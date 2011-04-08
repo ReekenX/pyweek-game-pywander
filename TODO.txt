@@ -7,6 +7,4 @@ Life progress bar.
 
 Windows And Mac OS testing.
 
-Save THE BOSS live globally.
-
 Remove flickr on game startup.
