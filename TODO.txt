@@ -1,8 +1,2 @@
 TODO
 ====
-
-Life progress bar.
-
-Windows And Mac OS testing.
-
-Remove flickr on game startup.
