@@ -4,6 +4,7 @@ from pygame.locals import K_DOWN, K_UP, K_LEFT, K_RIGHT, K_SPACE
 from pywander.boards.base import BoardBase
 from pywander.objects.image import ImageObject
 from pywander.objects.label import LabelObject
+from pywander.objects.sound import SoundObject
 from pywander.sprites.ship import ShipSprite
 from pywander.sprites.enemy import EnemySprite
 from pywander.sprites.boss import BossSprite
@@ -95,7 +96,7 @@ class GameBoard(BoardBase):
             enemy.draw_on_surface(surface, self)
 
         for inactive in self.inactive_group.sprites():
-            if isinstance(enemy, EnemySprite):
+            if isinstance(inactive, EnemySprite):
                 if inactive.is_completed():
                     self.inactive_group.remove(inactive)
                     continue
@@ -120,12 +121,20 @@ class GameBoard(BoardBase):
                 self.score += 7
                 hit.kill()
                 hit.show_explosion()
+                sound = SoundObject()
+                sound.play('boom', 0)
                 self.inactive_group.add(hit)
 
         hit = pygame.sprite.spritecollideany(self.ship, self.enemy_group)
         if hit:
             if not isinstance(hit, AsteroidSprite):
                 hit.kill()
+
+                if isinstance(hit, EnemySprite):
+                    hit.show_explosion()
+                    sound = SoundObject()
+                    sound.play('boom', 0)
+
                 self.life -= 25
             else:
                 self.status = PLAYER_LOSE
