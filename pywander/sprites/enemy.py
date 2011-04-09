@@ -27,6 +27,17 @@ class EnemySprite(SpriteBase):
             elapsed = self.time - time_before
             self.x_position -= int(elapsed * self.speed)
             self.image.rect.left = int(self.x_position)
+
+            if random.randint(1, 6) == 6:
+                time_now = pygame.time.get_ticks()
+                if self.last_fire_time + self.fire_time_delay < time_now:
+                    bullet = BulletSprite(False)
+                    bullet.image.rect.left = self.image.rect.left + self.image.rect.width / 2 - 4
+                    bullet.image.rect.top = self.image.rect.top + self.image.rect.height / 2 - 9
+                    bullet.rect = bullet.image.rect
+                    game_board.enemy_group.add(bullet)
+                    self.last_fire_time = time_now
+
             super(EnemySprite, self).draw_on_surface(surface, game_board)
         else:
             if self.explosion_frame != 15:
@@ -35,16 +46,6 @@ class EnemySprite(SpriteBase):
                 self.image.rect = tmp_rect
                 self.explosion_frame += 1
                 super(EnemySprite, self).draw_on_surface(surface, game_board)
-
-        if random.randint(1, 6) == 6:
-            time_now = pygame.time.get_ticks()
-            if self.last_fire_time + self.fire_time_delay < time_now:
-                bullet = BulletSprite(False)
-                bullet.image.rect.left = self.image.rect.left + self.image.rect.width / 2 - 4
-                bullet.image.rect.top = self.image.rect.top + self.image.rect.height / 2 - 9
-                bullet.rect = bullet.image.rect
-                game_board.enemy_group.add(bullet)
-                self.last_fire_time = time_now
 
     def show_explosion(self):
         self.start_explosion = True

@@ -127,7 +127,8 @@ class GameBoard(BoardBase):
 
         hit = pygame.sprite.spritecollideany(self.ship, self.enemy_group)
         if hit:
-            if not isinstance(hit, AsteroidSprite):
+            fatal = isinstance(hit, AsteroidSprite) or isinstance(hit, BossSprite)
+            if not fatal:
                 hit.kill()
 
                 if isinstance(hit, EnemySprite):
