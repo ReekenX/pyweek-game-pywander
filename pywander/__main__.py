@@ -3,6 +3,7 @@ import sys
 import pygame
 from pywander.boards.startup import StartupBoard
 from pywander.objects.label import LabelObject
+from pywander.objects.sound import SoundObject
 
 
 def main():
@@ -18,6 +19,8 @@ def main():
 
     clock = pygame.time.Clock()
     board = StartupBoard()
+    sound = SoundObject()
+    sound.play('background', -1)
 
     while board is not None:
         surface.fill(SCREEN_BACKGROUND)

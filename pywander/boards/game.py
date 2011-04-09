@@ -50,7 +50,7 @@ class GameBoard(BoardBase):
         self.enemy_group = pygame.sprite.Group()
         self.inactive_group = pygame.sprite.Group()
 
-        self.level_file = open(os.path.join('data', 'level_%d.txt' % self.level))
+        self.level_file = open(os.path.join('data', 'levels', 'level_%d.txt' % self.level))
         self.level_file.readline()  # First line indicates just limit of file width
 
     def process_draw_on_surface(self, surface):

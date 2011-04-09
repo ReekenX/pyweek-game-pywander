@@ -7,6 +7,10 @@ Team: ReekenX
 Members: Remigijus Jarmalavičius
 License: see LICENSE.txt
 
+Background music
+----------------
+
+Background music used using CC license from free-loops.com. 
 
 Running the Game
 ----------------
